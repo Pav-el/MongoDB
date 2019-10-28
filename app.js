@@ -2,37 +2,44 @@ const mongoose = require("mongoose");
 
 // mongoose.connect("mongodb://localhost:27017/fruitsDB", { useNewUrlParser: true,  useUnifiedTopology: true });
 
-mongoose.connect("mongodb://localhost:27017/personDB", { useNewUrlParser: true,  useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/personDB", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
-const personSchema = new mongoose.Schema ({
+const personSchema = new mongoose.Schema({
     name: String,
     age: Number
 });
 
-const Person = mongoose.model ("Person", personSchema);
+const Person = mongoose.model("Person", personSchema);
 // const person = new Person ({
 //     name: "John",
 //     age: 37
 // })
-const Sally = new Person ({
+const Sally = new Person({
     name: "Sally",
     age: 175
 });
-const Peter = new Person ({
+const Peter = new Person({
     name: "Peter",
     age: 525
 });
-const Alice = new Person ({
+const Alice = new Person({
     name: "Alice",
     age: 245
 });
 
-Person.insertMany([Sally, Peter, Alice], function(err){
-    err ? console.log( err ) : console.log( "Successfully added" );
-});
+// Person.insertMany([Sally, Peter, Alice], function(err){
+//     err ? console.log( err ) : console.log( "Successfully added" );
+// });
 
-Person.find(function(err, people){
-    err ? console.log( err ) : console.log( people );
+Person.find(function (err, people) {
+    err ? console.log(err) :
+        (
+            mongoose.connection.close(),
+            people.forEach((person) => console.log(person.name))
+        )
 });
 
 
