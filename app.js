@@ -1,44 +1,44 @@
 const mongoose = require("mongoose");
 
-// mongoose.connect("mongodb://localhost:27017/fruitsDB", { useNewUrlParser: true,  useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/fruitsDB", { useNewUrlParser: true,  useUnifiedTopology: true });
 
-mongoose.connect("mongodb://localhost:27017/personDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+// mongoose.connect("mongodb://localhost:27017/fruitsDB", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
+
+const fruitSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, "name please!"]
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 10
+    },
+    review: String
 });
 
-const personSchema = new mongoose.Schema({
-    name: String,
-    age: Number
+const Fruit = mongoose.model("Fruit", fruitSchema);
+
+const fruit = new Fruit({
+    rating: 7,
+    review: "Great!"
 });
 
-const Person = mongoose.model("Person", personSchema);
-// const person = new Person ({
-//     name: "John",
-//     age: 37
-// })
-const Sally = new Person({
-    name: "Sally",
-    age: 175
-});
-const Peter = new Person({
-    name: "Peter",
-    age: 525
-});
-const Alice = new Person({
-    name: "Alice",
-    age: 245
-});
+fruit.save();
 
 // Person.insertMany([Sally, Peter, Alice], function(err){
 //     err ? console.log( err ) : console.log( "Successfully added" );
 // });
 
-Person.find(function (err, people) {
+Fruit.find(function (err, fruits) {
     err ? console.log(err) :
         (
             mongoose.connection.close(),
-            people.forEach((person) => console.log(person.name))
+
+            fruits.forEach((fruit) => console.log(fruit.name))
         )
 });
 
