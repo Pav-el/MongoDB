@@ -10,7 +10,7 @@ mongoose.connect("mongodb://localhost:27017/fruitsDB", { useNewUrlParser: true, 
 const fruitSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "name please!"]
+        // required: [true, "name please!"]
     },
     rating: {
         type: Number,
@@ -27,20 +27,67 @@ const fruit = new Fruit({
     review: "Great!"
 });
 
-fruit.save();
+const banana = new Fruit({
+    name: "banana",
+    rating: 7,
+    review: "Very nice!"
+});
+
+const pineapple = new Fruit({
+    name: "pineapple",
+    rating: 9,
+    review: "Very nice!"
+});
+
+const peach = new Fruit({
+    rating: 5,
+    review: "good!"
+});
+Fruit.deleteMany({}, function (err) {
+    err ? console.log(err) : (console.log('docs deleted'), mongoose.connection.close());
+});
+
+
+// Fruit.updateOne({
+//     "_id": "5db83a0a56bd2504944fa3db"
+// }, {
+//     "name": "pineapple"
+// }, function (err) {
+//     if (err) {
+//         console.log(fruit.name);
+//         mongoose.connection.close();
+//     } else {
+//         Fruit.updateOne({
+//             "_id": "5db83a0a56bd2504944fa3dc"
+//         }, {
+//             "name": "peach"
+//         }, function (err) {
+//             if (err) {
+//                 console.log(fruit.name);
+//                 mongoose.connection.close();
+//             } else {
+//                 console.log('updated successfully');
+//                 mongoose.connection.close();
+//             }
+//         })
+//     }
+// })
+
+
+
+// Fruit.insertMany([banana, pineapple, peach]);
 
 // Person.insertMany([Sally, Peter, Alice], function(err){
 //     err ? console.log( err ) : console.log( "Successfully added" );
 // });
 
-Fruit.find(function (err, fruits) {
-    err ? console.log(err) :
-        (
-            mongoose.connection.close(),
-
-            fruits.forEach((fruit) => console.log(fruit.name))
-        )
-});
+// Fruit.find(function (err, fruits) {
+//     err ? console.log(err) :
+//         (
+//             mongoose.connection.close(),
+//             fruits.forEach((fruit) => console.log(fruit.name))
+//         )
+// });
 
 
 
